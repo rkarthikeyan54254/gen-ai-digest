@@ -134,13 +134,20 @@ async function classifyByGeneration(article: any, openai: OpenAIApi) {
   }
 
   const prompt = `
-You are an expert at analyzing AI news articles and determining their relevance to different generations.
-Analyze this AI/technology news article and determine if it would be interesting and relevant to each generation.
+You are an AI news classification expert.
+
+Your task is to determine whether the following article is:
+1. **Primarily about AI or core AI technologies** (like machine learning, LLMs, AI applications, AI ethics, innovations, breakthroughs, etc.)
+2. **NOT about finance, stock markets, earnings, business deals, or vague mentions of AI**
+3. **Relevant to each generation** based on their tech habits, lifestyle, and how the AI development might impact them.
+
+For each generation, respond ONLY with "Yes" or "No" based on these rules.
 
 Article Title: ${article.title}
 Article Description: ${article.description}
 
-For each generation, respond ONLY with "Yes" or "No" based on these criteria:
+For each generation, respond ONLY with "Yes" or "No" based on these rules.
+
 - The article must be specifically about AI/technology
 - The content should be relevant to that generation's typical interaction with or interest in AI
 - Consider each generation's technical literacy and use of technology
@@ -151,8 +158,8 @@ Respond in this exact format:
 2. Millennials (26-41): Yes/No
 3. Gen X (42-57): Yes/No
 4. Boomers (58-76): Yes/No
+If the article is not clearly and primarily about AI or AI technology, respond with "No" for all generations.`
 
-If the article is not primarily about AI or technology, respond with "No" for all generations.`
 
   try {
     const completion = await fetchWithRetry(
